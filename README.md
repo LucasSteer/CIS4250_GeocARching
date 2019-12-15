@@ -1,86 +1,34 @@
 # Introduction
 
-This is a template for doing Android development using GitLab and [fastlane](https://fastlane.tools/).
-It is based on the tutorial for Android apps in general that can be found [here](https://developer.android.com/training/basics/firstapp/). 
-If you're learning Android at the same time, you can also follow along that
-tutorial and learn how to do everything all at once.
+This is a public repository for the group project produced by Lucas Steer, Silas Sales, Davis Onyeije, and Aaron Gordon for their CIS*4250 course at the University of Guelph. As part of this course students were asked to form groups of 2-4 individuals, determine a project idea and scope, and implement their idea within 3 months (roughly from the start of September to the end of November).
 
-# Reference links
+# What is GeocARching
 
-- [GitLab CI Documentation](https://docs.gitlab.com/ee/ci/)
-- [Blog post: Android publishing with GitLab and fastlane](https://about.gitlab.com/2019/01/28/android-publishing-with-gitlab-and-fastlane/)
+This project is an Android mobile app with the working title "GeocARching". The core concept was to replicate the [Geocaching](https://www.geocaching.com/) experience entirely within AR.
 
-You'll definitely want to read through the blog post since that walks you in detail
-through a working production configuration using this model.
+# What it does
 
-# Getting started
+The app uses the device's location and the Google Maps API to place caches at a specific real-world location so that users needed to be within roughly 10m of that location to jump into AR and find the cache.
 
-First thing is to follow the [Android tutorial](https://developer.android.com/training/basics/firstapp/) and
-get Android Studio installed on your machine, so you can do development using
-the Android IDE. Other IDE options are possible, but not directly described or
-supported here. If you're using your own IDE, it should be fairly straightforward
-to convert these instructions to use with your preferred toolchain.
+AR functionality was powered by ARCore, Sceneform, and Google Cloud Anchors to allow users to scan real-world geometry (such as a table) and place 3D models in AR. When other users got to the real-world location that the cache was placed at, they would need to move their device around and use the built-in camera to find the cache in AR.
 
-## What's contained in this project
+We also implemented basic gamification features (such as a levelling and XP system fueled by finding caches) and leaderboards to see who had found the most caches.
 
-### Android code
+# Future of the project
 
-The state of this project is as if you followed the first few steps in the linked
-[Android tutorial](https://developer.android.com/training/basics/firstapp/) and
-have created your project. You're definitely going to want to open up the
-project and change the settings to match what you plan to build. In particular,
-you're at least going to want to change the following:
+There are plenty of bugs (and "jank") in this project, however, overall it met the goals that we set out to accomplish when we started the project. I, personally, would like to resolve some of these issues, clean up the codebase, and implement automated testing to improve the project's stability. In addition, there was functionality that I had envisioned that wasn't realistic to expand upon within the scope and timeline of the project that I hope to resolve.
 
-- Application Name: "My First App"
-- Company Domain: "example.com"
+# Notes
 
-### Fastlane files
+## Accounts and keys
 
-It also has fastlane setup per our [blog post](https://about.gitlab.com/2019/01/28/android-publishing-with-gitlab-and-fastlane/) on
-getting GitLab CI set up with fastlane. Note that you may want to update your
-fastlane bundle to the latest version; if a newer version is available, the pipeline
-job output will tell you.
+You may notice that there are API keys, email contacts, etc. that are exposed; all of these are no longer valid or have been shutdown.
 
-### Dockerfile build environment
+## 3rd party resources
 
-In the root there is a Dockerfile which defines a build environment which will be
-used to ensure consistent and reliable builds of your Android application using
-the correct Android SDK and other details you expect. Feel free to add any
-build-time tools or whatever else you need here.
+In addition to the "andy" model, we used the following 3D models:
+* Car: https://www.turbosquid.com/FullPreview/Index.cfm/ID/1055619
+* Pepper: https://www.turbosquid.com/FullPreview/Index.cfm/ID/1467304
+* Cactus: https://www.turbosquid.com/FullPreview/Index.cfm/ID/1340212
 
-We generate this environment as needed because installing the Android SDK
-for every pipeline run would be very slow.
-
-### Gradle configuration
-
-The gradle configuration is exactly as output by Android Studio except for the
-version name being updated to 
-
-Instead of:
-
-`versionName "1.0"`
-
-It is now set to:
-
-`versionName "1.0-${System.env.VERSION_SHA}"`
-
-You'll want to update this for whatever versioning scheme you prefer.
-
-### Build configuration (`.gitlab-ci.yml`)
-
-The sample project also contains a basic `.gitlab-ci.yml` which will successfully 
-build the Android application.
-
-Note that for publishing to the test channels or production, you'll need to set
-up your secret API key. The stub code is here for that, but please see our
-[blog post](https://about.gitlab.com/2019/01/28/android-publishing-with-gitlab-and-fastlane/) for
-details on how to set this up completely. In the meantime, publishing steps will fail.
-
-The build script also handles automatic versioning by relying on the CI pipeline
-ID to generate a unique, ever increasing number. If you have a different versioning
-scheme you may want to change this.
-
-```yaml
-    - "export VERSION_CODE=$(($CI_PIPELINE_IID)) && echo $VERSION_CODE"
-    - "export VERSION_SHA=`echo ${CI_COMMIT_SHA:0:8}` && echo $VERSION_SHA"
-```
+If any of the creators or associated parties have issue with the models existing in this application, please contact me and they will be removed.
